@@ -8,4 +8,26 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CustomText">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#462720</item>
+    </style>
+
+    <style name="CustomButton" parent="Theme.AppCompat.DayNight.Dialog.MinWidth">
+        <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">#200803</item>
+    </style>
+
+    <style name="CustomTextLight">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#BA3B1E</item>
+    </style>
+
+    <style name="GreenText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#00FF00</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

@@ -1,8 +1,19 @@
-<resources>
-    <string name="app_name">Job4j Exam</string>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name" translatable="false"> Job4j Exam</string>
 
     <string name="domain_prompt">Выберите область</string>
     <string name="exp_date">Дата проведения испытания</string>
+    <string name="Object_name">Имя объекта</string>
+    <string name="the_address">Улица и дом</string>
+    <string name="name_of_customer">ФИО заказчика</string>
+    <string name="temperature">Температура воздуха</string>
+    <string name="city">Город</string>
+    <string name="humidity">Влажность воздуха</string>
+    <string name="atm_pressure">Атмосферное давление</string>
+    <string name="report_number">Номер отчета</string>
+    <string name="hello" translatable="false">Hello, Artem Alekseev!</string>
+    <string name="button_back">Назад</string>
+    <string name="button_next">Далее</string>
     <string-array name="domain_arrays">
         <item>Выберите область</item>
         <item>Московская</item>
