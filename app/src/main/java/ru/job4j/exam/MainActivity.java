@@ -46,6 +46,19 @@ public class MainActivity extends AppCompatActivity {
             )
     );
 
+    private void nextBtn(View view) {
+        showAnswer();
+        RadioGroup variants = findViewById(R.id.variants);
+        userAnswers.put(questions.get(position).getId(), variants.getCheckedRadioButtonId());
+        position++;
+        fillForm();
+    }
+
+    private void previousBtn(View view) {
+        position--;
+        fillForm();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,29 +70,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "OnCreate");
 
         Button next = findViewById(R.id.next);
-        next.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        showAnswer();
-                        RadioGroup variants = findViewById(R.id.variants);
-                        userAnswers.put(questions.get(position).getId(), variants.getCheckedRadioButtonId());
-                        position++;
-                        fillForm();
-                    }
-                }
-        );
+        next.setOnClickListener(this::nextBtn);
 
         Button previous = findViewById(R.id.previous);
-        previous.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        position--;
-                        fillForm();
-                    }
-                }
-        );
+        previous.setOnClickListener(this::previousBtn);
     }
 
     @Override
@@ -150,12 +144,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.next).setEnabled(false);
         findViewById(R.id.previous).setEnabled(false);
         variants.setOnCheckedChangeListener(
-                new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        findViewById(R.id.previous).setEnabled(position != 0);
-                        findViewById(R.id.next).setEnabled(position != questions.size() - 1);
-                    }
+                (group, checkedId) -> {
+                    findViewById(R.id.previous).setEnabled(position != 0);
+                    findViewById(R.id.next).setEnabled(position != questions.size() - 1);
                 }
         );
     }
