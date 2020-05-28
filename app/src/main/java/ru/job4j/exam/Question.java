@@ -2,32 +2,32 @@ package ru.job4j.exam;
 
 import java.util.List;
 
-class Question {
+public class Question {
     private int id;
     private String text;
     private List<Option> options;
     private int answer;
 
-    Question(int id, String text, List<Option> options, int answer) {
+    public Question(int id, String text, List<Option> options, int answer) {
         this.id = id;
         this.text = text;
         this.options = options;
         this.answer = answer;
     }
 
-    String getText() {
+    public String getText() {
         return this.text;
     }
 
-    List getOptions() {
+    public List getOptions() {
         return this.options;
     }
 
-    int getAnswer() {
+    public int getAnswer() {
         return this.answer;
     }
 
-    int getId() {
+    public int getId() {
         return this.id;
     }
 }

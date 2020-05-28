@@ -2,20 +2,20 @@ package ru.job4j.exam;
 
 import java.util.Objects;
 
-class Option {
+public class Option {
     private int id;
     private String text;
 
-    Option(int id, String text) {
+    public Option(int id, String text) {
         this.id = id;
         this.text = text;
     }
 
-    int getId() {
+    public int getId() {
         return this.id;
     }
 
-    String getText() {
+    public String getText() {
         return this.text;
     }
 }
