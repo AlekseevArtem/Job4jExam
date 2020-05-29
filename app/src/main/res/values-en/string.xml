@@ -12,6 +12,8 @@
     <string name="humidity">Air humidity</string>
     <string name="atm_pressure">Atmosphere pressure</string>
     <string name="report_number">Report number</string>
+    <string name="restart">Restart</string>
+    <string name="button_hint">Hint</string>
     <string-array name="domain_arrays">
         <item>Choose area</item>
         <item>New York</item>

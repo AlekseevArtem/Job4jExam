@@ -14,6 +14,8 @@
     <string name="hello" translatable="false">Hello, Artem Alekseev!</string>
     <string name="button_back">Назад</string>
     <string name="button_next">Далее</string>
+    <string name="restart">Сначала</string>
+    <string name="button_hint">Подсказка</string>
     <string-array name="domain_arrays">
         <item>Выберите область</item>
         <item>Московская</item>

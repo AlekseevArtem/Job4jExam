@@ -23,25 +23,25 @@
             android:id="@+id/radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RadioButton"/>
+            android:text=""/>
 
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RadioButton"/>
+            android:text=""/>
 
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RadioButton"/>
+            android:text=""/>
 
         <RadioButton
             android:id="@+id/radioButton4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RadioButton"/>
+            android:text=""/>
     </RadioGroup>
 
     <LinearLayout
@@ -54,14 +54,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_back" />
+            android:text="@string/button_back"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_hint"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_next" />
+            android:text="@string/button_next"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
 
 </LinearLayout>

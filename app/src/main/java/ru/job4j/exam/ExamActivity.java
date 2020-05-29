@@ -1,8 +1,6 @@
 package ru.job4j.exam;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,24 +10,41 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import ru.job4j.exam.store.QuestionStore;
 
-public class MainActivity extends AppCompatActivity {
+public class ExamActivity extends AppCompatActivity {
     private static final String TAG = "ExamActivity";
     private int flip;
     private int position = 0;
     private Map<Integer, Integer> userAnswers = new HashMap<>();
+    public static final String HINT_FOR = "hint_for";
     private final QuestionStore store = QuestionStore.getInstance();
 
     private void nextBtn(View view) {
-        showAnswer();
         RadioGroup variants = findViewById(R.id.variants);
-        userAnswers.put(store.get(position).getId(), variants.getCheckedRadioButtonId());
+        showAnswer();
+        userAnswers.put(store.get(position).getId(), variants.getCheckedRadioButtonId() == store.get(this.position).getAnswer() ? 1 : 0);
         position++;
         fillForm();
+    }
+
+    private void resultBtn(View view) {
+
+        RadioGroup variants = findViewById(R.id.variants);
+        userAnswers.put(store.get(position).getId(), variants.getCheckedRadioButtonId() == store.get(this.position).getAnswer() ? 1 : 0);
+        int sum = 0;
+        for (int value : userAnswers.values()) {
+            sum = sum + value;
+        }
+        Intent intent = new Intent(ExamActivity.this, ResultActivity.class);
+        intent.putExtra("current answers", sum);
+        startActivity(intent);
     }
 
     private void previousBtn(View view) {
@@ -52,6 +67,15 @@ public class MainActivity extends AppCompatActivity {
 
         Button previous = findViewById(R.id.previous);
         previous.setOnClickListener(this::previousBtn);
+
+        Button hint = findViewById(R.id.hint);
+        hint.setOnClickListener(
+                view -> {
+                    Intent intent = new Intent(ExamActivity.this, HintActivity.class);
+                    intent.putExtra(HINT_FOR, position);
+                    startActivity(intent);
+                }
+        );
     }
 
     @Override
@@ -94,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fillForm() {
         blockButtons();
+        Button next = findViewById(R.id.next);
         final TextView text = findViewById(R.id.question);
         Question question = store.get(this.position);
         text.setText(question.getText());
@@ -104,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
             button.setId(option.getId());
             button.setText(option.getText());
         }
+        if(position == store.size() - 1) {
+            findViewById(R.id.next).setOnClickListener(this::resultBtn);
+        } else next.setOnClickListener(this::nextBtn);
     }
 
     private void showAnswer() {
@@ -124,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         variants.setOnCheckedChangeListener(
                 (group, checkedId) -> {
                     findViewById(R.id.previous).setEnabled(position != 0);
-                    findViewById(R.id.next).setEnabled(position != store.size() - 1);
+                    findViewById(R.id.next).setEnabled(true);
                 }
         );
     }
