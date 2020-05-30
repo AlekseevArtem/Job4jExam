@@ -21,6 +21,8 @@ public class ResultActivity extends AppCompatActivity {
         back.setOnClickListener(
                 view -> {
                     Intent intent = new Intent(ResultActivity.this, ExamActivity.class);
+                    QuestionStore.getInstance().setPosition(0);
+                    QuestionStore.getInstance().getUserAnswers().clear();
                     startActivity(intent);
                 }
         );

@@ -27,7 +27,7 @@ public class HintActivity extends AppCompatActivity {
         setContentView(R.layout.hint_activity);
         TextView text = findViewById(R.id.hint);
         TextView hintQuestion = findViewById(R.id.hintQuestion);
-        int question = getIntent().getIntExtra(ExamActivity.HINT_FOR, 0);
+        int question = getIntent().getIntExtra(QuestionStore.HINT_FOR, 0);
         text.setText(this.answers.get(question));
         hintQuestion.setText(QuestionStore.getInstance().get(question).getText());
 

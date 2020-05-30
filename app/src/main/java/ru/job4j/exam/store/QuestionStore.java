@@ -1,15 +1,19 @@
 package ru.job4j.exam.store;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import ru.job4j.exam.Option;
 import ru.job4j.exam.Question;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
-
 public final class QuestionStore {
     private List<Question> questions = new ArrayList<>();
-
+    private int position = 0;
+    private Map<Integer, Integer> userAnswers = new HashMap<>();
+    public static final String HINT_FOR = "hint_for";
     private static final QuestionStore INST = new QuestionStore();
 
     private QuestionStore() {
@@ -50,5 +54,18 @@ public final class QuestionStore {
 
     public int size() {
         return questions.size();
+    }
+
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public Map<Integer, Integer> getUserAnswers() {
+        return userAnswers;
     }
 }
