@@ -7,19 +7,13 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import ru.job4j.exam.store.QuestionStore;
 
 public class HintActivity extends AppCompatActivity {
-    private final Map<Integer, String> answers = new HashMap<>();
+    private final Map<Integer, String> answers = QuestionStore.getAnswers();
 
-    public HintActivity() {
-        this.answers.put(0, "Hint 1");
-        this.answers.put(1, "Hint 2");
-        this.answers.put(2, "Hint 3");
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle state) {

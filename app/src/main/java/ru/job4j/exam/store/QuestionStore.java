@@ -15,6 +15,13 @@ public final class QuestionStore {
     private Map<Integer, Integer> userAnswers = new HashMap<>();
     public static final String HINT_FOR = "hint_for";
     private static final QuestionStore INST = new QuestionStore();
+    private static final Map<Integer, String> answers = new HashMap<Integer, String>(){
+        {
+            put(0, "Hint 1");
+            put(1, "Hint 2");
+            put(2, "Hint 3");
+        }
+    };
 
     private QuestionStore() {
         questions.add(new Question(
@@ -52,10 +59,13 @@ public final class QuestionStore {
         return questions.get(position);
     }
 
+    public static Map<Integer, String> getAnswers() {
+        return answers;
+    }
+
     public int size() {
         return questions.size();
     }
-
 
     public int getPosition() {
         return position;
