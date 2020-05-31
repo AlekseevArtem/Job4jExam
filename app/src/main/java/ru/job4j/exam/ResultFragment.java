@@ -32,11 +32,18 @@ public class ResultFragment extends Fragment {
                 }
         );
 
-        TextView result = view.findViewById(R.id.common);
-        int question = Objects.requireNonNull(getActivity()).getIntent().getIntExtra("current answers", 0);
+        TextView result = view.findViewById(R.id.hint_or_result);
+        int question = Objects.requireNonNull(getArguments()).getInt("current answers", 0);
         String textResult = question + " correct answers out of " + QuestionStore.getInstance().size();
         result.setText(textResult);
         return view;
     }
 
+    public static ResultFragment of(int index) {
+        ResultFragment result = new ResultFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("current answers", index);
+        result.setArguments(bundle);
+        return result;
+    }
 }
