@@ -11,13 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.Map;
 import java.util.Objects;
 
 import ru.job4j.exam.store.QuestionStore;
 
 public class HintFragment extends Fragment {
-    private final Map<Integer, String> answers = QuestionStore.getAnswers();
+    private final QuestionStore store = QuestionStore.getInstance();
 
     @Nullable
     @Override
@@ -27,7 +26,7 @@ public class HintFragment extends Fragment {
         TextView text = view.findViewById(R.id.hint_or_result);
         TextView hintQuestion = view.findViewById(R.id.hintQuestion);
         int question = Objects.requireNonNull(getArguments()).getInt(QuestionStore.HINT_FOR, 0);
-        text.setText(this.answers.get(question));
+        text.setText(this.store.getAnswers().get(question));
         hintQuestion.setText(QuestionStore.getInstance().get(question).getText());
 
         Button back = view.findViewById(R.id.previous);
@@ -37,7 +36,7 @@ public class HintFragment extends Fragment {
         return view;
     }
 
-    public static HintFragment of(int index) {
+    static HintFragment of(int index) {
         HintFragment hint = new HintFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(QuestionStore.HINT_FOR, index);

@@ -39,7 +39,7 @@ public class ResultFragment extends Fragment {
         return view;
     }
 
-    public static ResultFragment of(int index) {
+    static ResultFragment of(int index) {
         ResultFragment result = new ResultFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("current answers", index);

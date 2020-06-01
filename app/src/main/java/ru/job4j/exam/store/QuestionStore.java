@@ -59,7 +59,7 @@ public final class QuestionStore {
         return questions.get(position);
     }
 
-    public static Map<Integer, String> getAnswers() {
+    public Map<Integer, String> getAnswers() {
         return answers;
     }
 
