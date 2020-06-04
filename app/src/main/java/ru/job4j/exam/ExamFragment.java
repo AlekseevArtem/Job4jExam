@@ -52,6 +52,11 @@ public class ExamFragment extends Fragment {
         fillForm(getView());
     }
 
+    private void examList(View view) {
+        Intent intent = new Intent(getActivity(), ExamsActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -72,6 +77,9 @@ public class ExamFragment extends Fragment {
 
         Button previous = view.findViewById(R.id.previous);
         previous.setOnClickListener(this::previousBtn);
+
+        Button examList = view.findViewById(R.id.examList);
+        examList.setOnClickListener(this::examList);
 
         Button hint = view.findViewById(R.id.hint);
         hint.setOnClickListener(
