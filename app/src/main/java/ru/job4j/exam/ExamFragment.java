@@ -1,6 +1,7 @@
 package ru.job4j.exam;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,15 @@ public class ExamFragment extends Fragment {
         fillForm(getView());
     }
 
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        ViewGroup viewGroup = (ViewGroup) getView();
+        Objects.requireNonNull(viewGroup).removeAllViewsInLayout();
+        View view = onCreateView(Objects.requireNonNull(getActivity()).getLayoutInflater(), viewGroup, null);
+        viewGroup.addView(view);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,6 +87,11 @@ public class ExamFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle outState) {
+        super.onActivityCreated(outState);
     }
 
     private void fillForm(View view) {
