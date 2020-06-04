@@ -89,17 +89,29 @@ public class ExamFragment extends Fragment {
                     startActivity(intent);
                 }
         );
+//        RadioButton button = Objects.requireNonNull(getActivity()).findViewById(R.id.radioButton3);
+//        button.setChecked(true);
         return view;
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+//        RadioGroup variants = Objects.requireNonNull(getActivity()).findViewById(R.id.variants);
+//        int button = variants.getCheckedRadioButtonId();
+//        outState.putInt("pressed button",button);
     }
 
     @Override
     public void onActivityCreated(Bundle outState) {
         super.onActivityCreated(outState);
+//        if (outState != null) {
+//            int buttonID = outState.getInt("pressed button");
+//            if(buttonID != -1) {
+//                RadioButton button = Objects.requireNonNull(getActivity()).findViewById(buttonID);
+//                button.setChecked(true);
+//            }
+//        }
     }
 
     private void fillForm(View view) {
