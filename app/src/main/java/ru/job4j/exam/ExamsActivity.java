@@ -43,7 +43,6 @@ public class ExamsActivity extends AppCompatActivity {
 
     public class ExamHolder extends RecyclerView.ViewHolder {
         private View view;
-
         public ExamHolder(@NonNull View view) {
             super(view);
             this.view = itemView;
@@ -52,11 +51,9 @@ public class ExamsActivity extends AppCompatActivity {
 
     public class ExamAdapter extends RecyclerView.Adapter<ExamHolder> {
         private final List<Exam> exams;
-
         public ExamAdapter(List<Exam> exams) {
             this.exams = exams;
         }
-
         @NonNull
         @Override
         public ExamHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -73,18 +70,18 @@ public class ExamsActivity extends AppCompatActivity {
             TextView result = holder.view.findViewById(R.id.result);
             result.setText(String.valueOf(exam.getResult()));
             TextView date = holder.view.findViewById(R.id.date);
-            @SuppressLint("SimpleDateFormat") String daw = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss E").format(exam.getTime());
-            date.setText(daw);
-            text.setOnClickListener(
-                    view -> {
-                        Toast.makeText(
-                                getApplicationContext(), "You select " + exam,
-                                Toast.LENGTH_SHORT
-                        ).show();
-                        Intent intent = new Intent(getApplicationContext(), ExamActivity.class);
-                        startActivity(intent);
-                    }
-            );
+            @SuppressLint("SimpleDateFormat") String data = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss E").format(exam.getTime());
+            date.setText(data);
+            text.setOnClickListener(view -> openToast(view, exam));
+        }
+
+        private void openToast(View view, Exam exam) {
+            Toast.makeText(
+                    getApplicationContext(), "You select " + exam,
+                    Toast.LENGTH_SHORT
+            ).show();
+            Intent intent = new Intent(getApplicationContext(), ExamActivity.class);
+            startActivity(intent);
         }
 
         @Override

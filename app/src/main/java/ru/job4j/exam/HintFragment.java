@@ -22,13 +22,11 @@ public class HintFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.result_and_hint_activity, container, false);
-
         TextView text = view.findViewById(R.id.hint_or_result);
         TextView hintQuestion = view.findViewById(R.id.hintQuestion);
         int question = Objects.requireNonNull(getArguments()).getInt(QuestionStore.HINT_FOR, 0);
         text.setText(this.store.getAnswers().get(question));
         hintQuestion.setText(QuestionStore.getInstance().get(question).getText());
-
         Button back = view.findViewById(R.id.previous);
         back.setOnClickListener(
                 v -> Objects.requireNonNull(getActivity()).onBackPressed()

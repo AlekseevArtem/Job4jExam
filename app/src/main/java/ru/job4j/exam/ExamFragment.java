@@ -71,16 +71,12 @@ public class ExamFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main, container, false);
         this.fillForm(view);
-
         Button next = view.findViewById(R.id.next);
         next.setOnClickListener(this::nextBtn);
-
         Button previous = view.findViewById(R.id.previous);
         previous.setOnClickListener(this::previousBtn);
-
         Button examList = view.findViewById(R.id.examList);
         examList.setOnClickListener(this::examList);
-
         Button hint = view.findViewById(R.id.hint);
         hint.setOnClickListener(
                 v -> {
@@ -154,5 +150,4 @@ public class ExamFragment extends Fragment {
                 }
         );
     }
-
 }

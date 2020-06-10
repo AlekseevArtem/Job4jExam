@@ -21,7 +21,6 @@ public class ResultFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.result_and_hint_activity, container, false);
-
         Button back = view.findViewById(R.id.previous);
         back.setOnClickListener(
                 v -> {
@@ -31,7 +30,6 @@ public class ResultFragment extends Fragment {
                     startActivity(intent);
                 }
         );
-
         TextView result = view.findViewById(R.id.hint_or_result);
         int question = Objects.requireNonNull(getArguments()).getInt("current answers", 0);
         String textResult = question + " correct answers out of " + QuestionStore.getInstance().size();
