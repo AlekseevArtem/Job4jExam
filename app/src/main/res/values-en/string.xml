@@ -14,6 +14,10 @@
     <string name="report_number">Report number</string>
     <string name="restart">Restart</string>
     <string name="button_hint">Hint</string>
+    <string name="button_exam_list">Exam List</string>
+    <string name="button_date_time">Date/Time</string>
+    <string name="button_set_date_and_time">Set date and time</string>
+    <string name="text_date_and_time">Date and time</string>
     <string-array name="domain_arrays">
         <item>Choose area</item>
         <item>New York</item>

@@ -16,6 +16,10 @@
     <string name="button_next">Далее</string>
     <string name="restart">Сначала</string>
     <string name="button_hint">Подсказка</string>
+    <string name="button_exam_list">Список экзаменов</string>
+    <string name="button_date_time">Дата/Время</string>
+    <string name="button_set_date_and_time">Установить дату и время</string>
+    <string name="text_date_and_time">Дата и время</string>
     <string-array name="domain_arrays">
         <item>Выберите область</item>
         <item>Московская</item>

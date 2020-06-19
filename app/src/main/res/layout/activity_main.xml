@@ -84,7 +84,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Exam List" />
+            android:text="@string/button_exam_list"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/dateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_date_time"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
 
 </LinearLayout>

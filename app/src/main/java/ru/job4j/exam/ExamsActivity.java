@@ -40,7 +40,6 @@ public class ExamsActivity extends AppCompatActivity {
         this.recycler.setAdapter(new ExamAdapter(exams));
     }
 
-
     public class ExamHolder extends RecyclerView.ViewHolder {
         private View view;
         public ExamHolder(@NonNull View view) {

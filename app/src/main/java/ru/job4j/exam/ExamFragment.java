@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import java.util.Objects;
@@ -57,6 +58,16 @@ public class ExamFragment extends Fragment {
         startActivity(intent);
     }
 
+    private void hint(View view) {
+        DialogFragment dialog = new ConfirmHintDialogFragment();
+        dialog.show(Objects.requireNonNull(getFragmentManager()), "dialog_tag");
+    }
+
+    private void dateTime(View view) {
+        Intent intent = new Intent(getActivity(), DateTimeActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -77,20 +88,11 @@ public class ExamFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main, container, false);
         this.fillForm(view);
-        Button next = view.findViewById(R.id.next);
-        next.setOnClickListener(this::nextBtn);
-        Button previous = view.findViewById(R.id.previous);
-        previous.setOnClickListener(this::previousBtn);
-        Button examList = view.findViewById(R.id.examList);
-        examList.setOnClickListener(this::examList);
-        Button hint = view.findViewById(R.id.hint);
-        hint.setOnClickListener(
-                v -> {
-                    Intent intent = new Intent(getActivity(), HintActivity.class);
-                    intent.putExtra(QuestionStore.HINT_FOR, store.getPosition());
-                    startActivity(intent);
-                }
-        );
+        view.findViewById(R.id.next).setOnClickListener(this::nextBtn);
+        view.findViewById(R.id.previous).setOnClickListener(this::previousBtn);
+        view.findViewById(R.id.examList).setOnClickListener(this::examList);
+        view.findViewById(R.id.hint).setOnClickListener(this::hint);
+        view.findViewById(R.id.dateTime).setOnClickListener(this::dateTime);
         return view;
     }
 
