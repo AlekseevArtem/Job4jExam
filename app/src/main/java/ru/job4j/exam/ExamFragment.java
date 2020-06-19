@@ -60,7 +60,7 @@ public class ExamFragment extends Fragment {
 
     private void hint(View view) {
         DialogFragment dialog = new ConfirmHintDialogFragment();
-        dialog.show(Objects.requireNonNull(getFragmentManager()), "dialog_tag");
+        dialog.show(Objects.requireNonNull(getFragmentManager()), "dialog_hint_tag");
     }
 
     private void dateTime(View view) {

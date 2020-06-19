@@ -8,11 +8,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-public class ConfirmHintDialogFragment extends DialogFragment {
-    private ConfirmHintDialogListener callback;
+public class ConfirmDeleteDialogFragment extends DialogFragment {
+    private ConfirmDeleteDialogListener callback;
 
-    public interface ConfirmHintDialogListener {
+    public interface ConfirmDeleteDialogListener {
         void onPositiveDialogClick(DialogFragment dialog);
+
         void onNegativeDialogClick(DialogFragment dialog);
     }
 
@@ -20,7 +21,7 @@ public class ConfirmHintDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())
-                .setMessage("Показать подсказку?")
+                .setMessage("Удалить все?")
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> callback.onPositiveDialogClick(this))
                 .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> callback.onNegativeDialogClick(this))
                 .create();
@@ -30,7 +31,7 @@ public class ConfirmHintDialogFragment extends DialogFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            callback = (ConfirmHintDialogListener) context;
+            callback = (ConfirmDeleteDialogFragment.ConfirmDeleteDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(String.format("%s must implement ConfirmHintDialogListener", context.toString()));
         }

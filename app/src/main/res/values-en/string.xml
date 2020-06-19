@@ -18,6 +18,8 @@
     <string name="button_date_time">Date/Time</string>
     <string name="button_set_date_and_time">Set date and time</string>
     <string name="text_date_and_time">Date and time</string>
+    <string name="add_item">Add</string>
+    <string name="delete_item">Delete</string>
     <string-array name="domain_arrays">
         <item>Choose area</item>
         <item>New York</item>
