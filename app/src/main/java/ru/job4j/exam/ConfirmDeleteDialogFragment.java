@@ -13,7 +13,6 @@ public class ConfirmDeleteDialogFragment extends DialogFragment {
 
     public interface ConfirmDeleteDialogListener {
         void onPositiveDialogClick(DialogFragment dialog);
-
         void onNegativeDialogClick(DialogFragment dialog);
     }
 
@@ -33,7 +32,7 @@ public class ConfirmDeleteDialogFragment extends DialogFragment {
         try {
             callback = (ConfirmDeleteDialogFragment.ConfirmDeleteDialogListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(String.format("%s must implement ConfirmHintDialogListener", context.toString()));
+            throw new ClassCastException(String.format("%s must implement ConfirmDeleteDialogListener", context.toString()));
         }
     }
 
