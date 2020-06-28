@@ -1,31 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:orientation="horizontal">
+    android:padding="5dp">
 
     <TextView
-        android:id="@+id/info"
-        android:layout_width="230dp"
+        android:id="@+id/q_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="info"
-        android:textSize="18sp" />
+        android:layout_weight="100"
+        android:text="TextView"
+        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/result"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="result"
-        android:textSize="18sp" />
+        android:layout_weight="20"
+        android:textSize="24dp"
+        android:text="90%" />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:textSize="24dp"
+        android:text="12.07.2019" />
+
+    <ImageView
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="date"
-        android:textSize="18sp" />
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@android:drawable/ic_menu_delete"
+        tools:ignore="VectorDrawableCompat" />
+
 </LinearLayout>
