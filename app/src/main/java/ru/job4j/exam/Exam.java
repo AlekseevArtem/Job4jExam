@@ -2,15 +2,13 @@ package ru.job4j.exam;
 
 import androidx.annotation.NonNull;
 
-import java.util.Date;
-
 public class Exam {
     private int id;
     private String name;
-    private Date time;
-    private int result;
+    private String time;
+    private String result;
 
-    public Exam(int id, String name, Date time, int result) {
+    public Exam(int id, String name, String time, String result) {
         this.id = id;
         this.name = name;
         this.time = time;
@@ -21,11 +19,11 @@ public class Exam {
         return name;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public int getResult() {
+    public String getResult() {
         return result;
     }
 

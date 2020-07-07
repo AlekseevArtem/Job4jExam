@@ -7,7 +7,8 @@ public class ResultActivity extends BaseActivity {
     @Override
     public Fragment loadFrg() {
         return ResultFragment.of(
-                getIntent().getIntExtra("current answers", 0)
+                getIntent().getIntExtra("current answers", 0),
+                getIntent().getIntExtra("answers", 0)
         );
     }
 }

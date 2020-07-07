@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.Objects;
 
-public class ExamsActivity extends AppCompatActivity
+public class ExamListActivity extends AppCompatActivity
         implements ConfirmDeleteDialogFragment.ConfirmDeleteDialogListener {
 
     private final FragmentManager manager = getSupportFragmentManager();

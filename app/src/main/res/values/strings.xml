@@ -22,6 +22,7 @@
     <string name="text_date_and_time">Дата и время</string>
     <string name="add_item">Добавить</string>
     <string name="delete_item">Удалить</string>
+    <string name="start_exam">Начать экзамен</string>
     <string-array name="domain_arrays">
         <item>Выберите область</item>
         <item>Московская</item>

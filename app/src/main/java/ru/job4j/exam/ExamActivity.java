@@ -1,19 +1,20 @@
 package ru.job4j.exam;
 
-import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import ru.job4j.exam.store.QuestionStore;
+import java.util.Objects;
+
+import ru.job4j.exam.store.ExamBaseHelper;
 
 public class ExamActivity extends BaseActivity implements ConfirmHintDialogFragment.ConfirmHintDialogListener {
     @Override
     public void onPositiveDialogClick(DialogFragment dialog) {
-        Intent intent = new Intent(this, HintActivity.class);
-        intent.putExtra(QuestionStore.HINT_FOR, QuestionStore.getInstance().getPosition());
-        startActivity(intent);
+        ExamFragment fragment = (ExamFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.content);
+        Objects.requireNonNull(fragment).onPositiveDialogClick();
     }
 
     @Override
@@ -23,6 +24,8 @@ public class ExamActivity extends BaseActivity implements ConfirmHintDialogFragm
 
     @Override
     public Fragment loadFrg() {
-        return new ExamFragment();
+        return ExamFragment.of(
+                getIntent().getIntExtra(ExamBaseHelper.EXAM_ID, 0)
+        );
     }
 }

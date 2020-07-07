@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
         android:fullBackupContent="@xml/backup_descriptor">
-        <activity android:name=".ExamsActivity">
+        <activity android:name=".ExamListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,9 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HintActivity"></activity>
-        <activity android:name=".ResultActivity"></activity>
-        <activity android:name=".DateTimeActivity"></activity>
+        <activity android:name=".HintActivity" />
+        <activity android:name=".ResultActivity" />
+        <activity android:name=".DateTimeActivity" />
+        <activity android:name=".ExamDescriptionActivity" />
     </application>
 
 </manifest>

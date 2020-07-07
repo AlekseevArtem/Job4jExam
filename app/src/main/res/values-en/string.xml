@@ -20,6 +20,7 @@
     <string name="text_date_and_time">Date and time</string>
     <string name="add_item">Add</string>
     <string name="delete_item">Delete</string>
+    <string name="start_exam">Start Exam</string>
     <string-array name="domain_arrays">
         <item>Choose area</item>
         <item>New York</item>

@@ -1,5 +1,7 @@
 package ru.job4j.exam;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +15,11 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Objects;
 
-import ru.job4j.exam.store.QuestionStore;
+import ru.job4j.exam.store.ExamBaseHelper;
+import ru.job4j.exam.store.ExamDbSchema;
 
 public class HintFragment extends Fragment {
-    private final QuestionStore store = QuestionStore.getInstance();
+    private SQLiteDatabase store;
 
     @Nullable
     @Override
@@ -24,9 +27,23 @@ public class HintFragment extends Fragment {
         View view = inflater.inflate(R.layout.result_and_hint_activity, container, false);
         TextView text = view.findViewById(R.id.hint_or_result);
         TextView hintQuestion = view.findViewById(R.id.hintQuestion);
-        int question = Objects.requireNonNull(getArguments()).getInt(QuestionStore.HINT_FOR, 0);
-        text.setText(this.store.getAnswers().get(question));
-        hintQuestion.setText(QuestionStore.getInstance().get(question).getText());
+        this.store = new ExamBaseHelper(this.getContext()).getWritableDatabase();
+        int questionID = Objects.requireNonNull(getArguments()).getInt(ExamBaseHelper.HINT_FOR, 0);
+        int examID = Objects.requireNonNull(getArguments()).getInt(ExamBaseHelper.EXAM_ID, 0);
+        Cursor cursor = this.store.query(
+                ExamDbSchema.QuestionTable.NAME,
+                new String[]{ExamDbSchema.QuestionTable.Cols.NAME,
+                        ExamDbSchema.QuestionTable.Cols.HINT},
+                ExamDbSchema.QuestionTable.Cols.POSITION + " = ?" + " and " +
+                        ExamDbSchema.QuestionTable.Cols.EXAM_ID + " = ?",
+                new String[]{String.valueOf(questionID), String.valueOf(examID)},
+                null, null, null
+        );
+        cursor.moveToFirst();
+        hintQuestion.setText(cursor.getString(cursor.getColumnIndex(ExamDbSchema.QuestionTable.Cols.NAME)));
+        text.setText(cursor.getString(cursor.getColumnIndex(ExamDbSchema.QuestionTable.Cols.HINT)));
+        cursor.close();
+
         Button back = view.findViewById(R.id.previous);
         back.setOnClickListener(
                 v -> Objects.requireNonNull(getActivity()).onBackPressed()
@@ -34,10 +51,11 @@ public class HintFragment extends Fragment {
         return view;
     }
 
-    static HintFragment of(int index) {
+    static HintFragment of(int examID, int questionID) {
         HintFragment hint = new HintFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(QuestionStore.HINT_FOR, index);
+        bundle.putInt(ExamBaseHelper.EXAM_ID, examID);
+        bundle.putInt(ExamBaseHelper.HINT_FOR, questionID);
         hint.setArguments(bundle);
         return hint;
     }
