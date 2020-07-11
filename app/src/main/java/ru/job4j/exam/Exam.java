@@ -5,12 +5,14 @@ import androidx.annotation.NonNull;
 public class Exam {
     private int id;
     private String name;
+    private String desc;
     private String time;
     private String result;
 
-    public Exam(int id, String name, String time, String result) {
+    public Exam(int id, String name, String desc, String time, String result) {
         this.id = id;
         this.name = name;
+        this.desc = desc;
         this.time = time;
         this.result = result;
     }
@@ -21,6 +23,10 @@ public class Exam {
 
     public String getTime() {
         return time;
+    }
+
+    public String getDesc() {
+        return desc;
     }
 
     public String getResult() {

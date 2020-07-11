@@ -21,20 +21,20 @@ public class ResultFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.result_and_hint_activity, container, false);
         Button back = view.findViewById(R.id.previous);
-        back.setText("Back to exams list");
-        back.setOnClickListener(
-                v -> {
-                    Intent intent = new Intent(getContext(), ExamListActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-        );
+        back.setText(R.string.back_to_list);
+        back.setOnClickListener(this::clickOnBackToList);
         TextView result = view.findViewById(R.id.hint_or_result);
         int currentAnswers = Objects.requireNonNull(getArguments()).getInt("current answers", 0);
         int allAnswers = Objects.requireNonNull(getArguments()).getInt("answers", 0);
-        String textResult = currentAnswers + " correct answers out of " + allAnswers;
+        String textResult = currentAnswers + " " + getString(R.string.correct_anwers) + " " + allAnswers;
         result.setText(textResult);
         return view;
+    }
+
+    private void clickOnBackToList(View v) {
+        Intent intent = new Intent(getContext(), ExamListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     static ResultFragment of(int currentAnswers, int AllAnswers) {

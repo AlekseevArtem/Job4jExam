@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/button_back"
+            android:textAllCaps="false"
             tools:ignore="ButtonStyle" />
 
         <Button
@@ -59,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/button_hint"
+            android:textAllCaps="false"
             tools:ignore="ButtonStyle" />
 
         <Button
@@ -67,6 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/button_next"
+            android:textAllCaps="false"
             tools:ignore="ButtonStyle" />
     </LinearLayout>
 
@@ -81,6 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/button_exam_list"
+            android:textAllCaps="false"
             tools:ignore="ButtonStyle" />
 
         <Button
@@ -89,6 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/button_date_time"
+            android:textAllCaps="false"
             tools:ignore="ButtonStyle" />
     </LinearLayout>
 

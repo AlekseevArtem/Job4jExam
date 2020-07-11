@@ -3,14 +3,10 @@ package ru.job4j.exam;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import java.util.Objects;
-
-public class ExamListActivity extends AppCompatActivity
-        implements ConfirmDeleteDialogFragment.ConfirmDeleteDialogListener {
+public class ExamListActivity extends AppCompatActivity {
 
     private final FragmentManager manager = getSupportFragmentManager();
 
@@ -25,17 +21,5 @@ public class ExamListActivity extends AppCompatActivity
                     .add(R.id.content, fragment)
                     .commit();
         }
-    }
-
-    @Override
-    public void onPositiveDialogClick(DialogFragment dialog) {
-        ExamListFragment fragment = (ExamListFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.content);
-        Objects.requireNonNull(fragment).deleteAll();
-    }
-
-    @Override
-    public void onNegativeDialogClick(DialogFragment dialog) {
-
     }
 }

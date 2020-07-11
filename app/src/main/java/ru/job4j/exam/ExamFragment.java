@@ -1,10 +1,7 @@
 package ru.job4j.exam;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +17,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 import ru.job4j.exam.store.ExamBaseHelper;
-import ru.job4j.exam.store.ExamDbSchema;
 
 
 public class ExamFragment extends Fragment {
-    private SQLiteDatabase store;
-    private int position = 1;
+    private ExamBaseHelper store;
+    private int position = 0;
     private int examID;
     private int size;
 
@@ -39,13 +33,7 @@ public class ExamFragment extends Fragment {
                 (String) Objects.requireNonNull(getView()).findViewById(
                         ((RadioGroup) getView().findViewById(R.id.variants)).getCheckedRadioButtonId()
                 ).getTag());
-        ContentValues value = new ContentValues();
-        value.put(ExamDbSchema.QuestionTable.Cols.ANSWER, answer);
-        store.update(ExamDbSchema.QuestionTable.NAME,
-                value,
-                ExamDbSchema.QuestionTable.Cols.POSITION + " = ?" + " and " +
-                        ExamDbSchema.QuestionTable.Cols.EXAM_ID + " = ?",
-                new String[]{String.valueOf(position), String.valueOf(examID)});
+        store.addAnswerToTheQuestion(answer, examID, position + 1);
         showAnswer(getView(), answer);
         position++;
         fillForm(getView());
@@ -57,43 +45,14 @@ public class ExamFragment extends Fragment {
                         ((RadioGroup) getView().findViewById(R.id.variants)).getCheckedRadioButtonId()
                 ).getTag()
         );
-        ContentValues value = new ContentValues();
-        value.put(ExamDbSchema.QuestionTable.Cols.ANSWER, answer);
-        store.update(ExamDbSchema.QuestionTable.NAME,
-                value,
-                ExamDbSchema.QuestionTable.Cols.POSITION + " = ?" + " and " +
-                        ExamDbSchema.QuestionTable.Cols.EXAM_ID + " = ?",
-                new String[]{String.valueOf(position), String.valueOf(examID)});
+        store.addAnswerToTheQuestion(answer, examID, position + 1);
         int sumAll = 0;
         int sumCurrent = 0;
-        Cursor cursor = this.store.query(
-                ExamDbSchema.QuestionTable.NAME,
-                null,
-                ExamDbSchema.QuestionTable.Cols.EXAM_ID + " = ?",
-                new String[]{String.valueOf(examID)},
-                null, null, null
-        );
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            if (cursor.getInt(cursor.getColumnIndex(ExamDbSchema.QuestionTable.Cols.ANSWER))
-                    == cursor.getInt(cursor.getColumnIndex(ExamDbSchema.QuestionTable.Cols.CORRECT))) {
-                sumCurrent++;
-            }
+        for (Question question : store.getQuestions(examID)) {
+            if (question.getAnswer() == question.getCorrect()) sumCurrent++;
             sumAll++;
-            cursor.moveToNext();
         }
-        cursor.close();
-
-        value = new ContentValues();
-        value.put(ExamDbSchema.ExamTable.Cols.DATE,
-                new SimpleDateFormat("dd.MM.yyyy").format(new Date(System.currentTimeMillis())));
-        value.put(ExamDbSchema.ExamTable.Cols.RESULT,
-                Math.round((double) sumCurrent / sumAll * Math.pow(10, 2)) / Math.pow(10, 2) * 100);
-        store.update(ExamDbSchema.ExamTable.NAME,
-                value,
-                "id = ?",
-                new String[]{String.valueOf(examID)});
-
+        store.setResultOfTheExam(examID, sumCurrent, sumAll);
         Intent intent = new Intent(getActivity(), ResultActivity.class);
         intent.putExtra("current answers", sumCurrent);
         intent.putExtra("answers", sumAll);
@@ -141,17 +100,9 @@ public class ExamFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main, container, false);
-        this.store = new ExamBaseHelper(this.getContext()).getWritableDatabase();
-        examID = getArguments().getInt(ExamBaseHelper.EXAM_ID, -1);
-        Cursor cursor = this.store.query(
-                ExamDbSchema.QuestionTable.NAME,
-                new String[]{ExamDbSchema.QuestionTable.Cols.NAME},
-                ExamDbSchema.QuestionTable.Cols.EXAM_ID + " = ?",
-                new String[]{String.valueOf(examID)},
-                null, null, null
-        );
-        size = cursor.getCount();
-        cursor.close();
+        this.store = ExamBaseHelper.getInstance(this.getContext());
+        examID = Objects.requireNonNull(getArguments()).getInt(ExamBaseHelper.EXAM_ID, -1);
+        size = store.getQuestions(examID).size();
         this.fillForm(view);
         view.findViewById(R.id.previous).setOnClickListener(this::previousBtn);
         view.findViewById(R.id.examList).setOnClickListener(this::examList);
@@ -189,62 +140,29 @@ public class ExamFragment extends Fragment {
         blockButtons(view);
         Button next = view.findViewById(R.id.next);
         final TextView text = view.findViewById(R.id.question);
-        int questionID;
-        Cursor cursor = this.store.query(
-                ExamDbSchema.QuestionTable.NAME,
-                new String[]{ExamDbSchema.QuestionTable.Cols.NAME,
-                        "id"},
-                ExamDbSchema.QuestionTable.Cols.EXAM_ID + " = ?" + " and " +
-                        ExamDbSchema.QuestionTable.Cols.POSITION + " = ?",
-                new String[]{String.valueOf(examID), String.valueOf(position)},
-                null, null, null
-        );
-        cursor.moveToFirst();
-        text.setText(cursor.getString(cursor.getColumnIndex(ExamDbSchema.QuestionTable.Cols.NAME)));
-        questionID = cursor.getInt(cursor.getColumnIndex("id"));
-        cursor.close();
+        Question question = store.getQuestions(examID).get(position);
+        text.setText(question.getText());
         RadioGroup variants = view.findViewById(R.id.variants);
-        cursor = this.store.query(
-                ExamDbSchema.OptionTable.NAME,
-                null,
-                ExamDbSchema.OptionTable.Cols.QUESTION_ID + " = ?",
-                new String[]{String.valueOf(questionID)},
-                null, null, null
-        );
-        cursor.moveToFirst();
-        int index = 0;
-        while (!cursor.isAfterLast()) {
-            RadioButton button = (RadioButton) variants.getChildAt(index);
-            button.setText(cursor.getString(cursor.getColumnIndex(ExamDbSchema.OptionTable.Cols.TEXT)));
-            index++;
-            cursor.moveToNext();
+        for (int i = 0; i < variants.getChildCount(); i++) {
+            RadioButton button = (RadioButton) variants.getChildAt(i);
+            button.setText(((Option) question.getOptions().get(i)).getText());
         }
-        cursor.close();
-        if (size == position) {
+        if (size == position + 1) {
             next.setOnClickListener(this::resultBtn);
-            next.setText("Result");
+            next.setText(R.string.button_result);
         } else {
             next.setOnClickListener(this::nextBtn);
-            next.setText("Next");
+            next.setText(R.string.button_next);
         }
     }
 
     private void showAnswer(View view, int answer) {
-        Cursor cursor = this.store.query(
-                ExamDbSchema.QuestionTable.NAME,
-                new String[]{ExamDbSchema.QuestionTable.Cols.CORRECT},
-                ExamDbSchema.QuestionTable.Cols.EXAM_ID + " = ?" + " and " +
-                        ExamDbSchema.QuestionTable.Cols.POSITION + " = ?",
-                new String[]{String.valueOf(examID), String.valueOf(position)},
-                null, null, null
-        );
-        cursor.moveToFirst();
         Toast.makeText(
-                getContext(), "Your answer is " + answer + ", correct is " +
-                        cursor.getInt(cursor.getColumnIndex(ExamDbSchema.QuestionTable.Cols.CORRECT)),
+                getContext(), getString(R.string.your_answer_is) + " " +
+                        answer + ", " + getString(R.string.correct_is) + " " +
+                        store.getQuestions(examID).get(position).getCorrect(),
                 Toast.LENGTH_SHORT
         ).show();
-        cursor.close();
     }
 
     private void blockButtons(View view) {

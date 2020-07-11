@@ -1,16 +1,29 @@
 package ru.job4j.exam.store;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import ru.job4j.exam.Exam;
+import ru.job4j.exam.Option;
+import ru.job4j.exam.Question;
 
 public class ExamBaseHelper extends SQLiteOpenHelper {
     public static final String DB = "exams.db";
     public static final int VERSION = 2;
     public static final String HINT_FOR = "hint_for";
     public static final String EXAM_ID = "exam_id";
+    private static ExamBaseHelper INST;
 
-    public ExamBaseHelper(Context context) {
+
+    private ExamBaseHelper(Context context) {
         super(context, DB, null, VERSION);
     }
 
@@ -24,12 +37,101 @@ public class ExamBaseHelper extends SQLiteOpenHelper {
         updateStore(db);
     }
 
-    private String insertExam(String name, String desc, String result, String date) {
-        return "insert into exam (name, desc, result, date) values (" +
-                "'" + name + "'," +
-                "'" + desc + "'," +
-                "" + result + "," +
-                "" + date + ")";
+    public static ExamBaseHelper getInstance(Context context) {
+        if (INST == null) {
+            INST = new ExamBaseHelper(context);
+        }
+        return INST;
+    }
+
+    public void addAnswerToTheQuestion(int answer, int examID, int position) {
+        ContentValues value = new ContentValues();
+        value.put(ExamDbSchema.QuestionTable.Cols.ANSWER, answer);
+        this.getWritableDatabase().update(ExamDbSchema.QuestionTable.NAME,
+                value,
+                ExamDbSchema.QuestionTable.Cols.POSITION + " = ?" + " and " +
+                        ExamDbSchema.QuestionTable.Cols.EXAM_ID + " = ?",
+                new String[]{String.valueOf(position), String.valueOf(examID)});
+    }
+
+    public void setResultOfTheExam(int examID, int sumCurrent, int sumAll) {
+        ContentValues value = new ContentValues();
+        value.put(ExamDbSchema.ExamTable.Cols.DATE,
+                new SimpleDateFormat("dd.MM.yyyy").format(new Date(System.currentTimeMillis())));
+        value.put(ExamDbSchema.ExamTable.Cols.RESULT,
+                Math.round((double) sumCurrent / sumAll * Math.pow(10, 2)) / Math.pow(10, 2) * 100);
+        this.getWritableDatabase().update(ExamDbSchema.ExamTable.NAME,
+                value,
+                "id = ?",
+                new String[]{String.valueOf(examID)});
+    }
+
+    public List<Exam> getExams() {
+        List<Exam> exams = new ArrayList<>();
+        Cursor cursor = this.getWritableDatabase().query(
+                ExamDbSchema.ExamTable.NAME,
+                null, null, null,
+                null, null, null
+        );
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            exams.add(new Exam(
+                    cursor.getInt(cursor.getColumnIndex("id")),
+                    cursor.getString(cursor.getColumnIndex(ExamDbSchema.ExamTable.Cols.NAME)),
+                    cursor.getString(cursor.getColumnIndex(ExamDbSchema.ExamTable.Cols.DESC)),
+                    cursor.getString(cursor.getColumnIndex(ExamDbSchema.ExamTable.Cols.DATE)),
+                    cursor.getString(cursor.getColumnIndex(ExamDbSchema.ExamTable.Cols.RESULT))
+            ));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return exams;
+    }
+
+    public List<Question> getQuestions(int examID) {
+        List<Question> questions = new ArrayList<>();
+        Cursor cursor = this.getWritableDatabase().query(
+                ExamDbSchema.QuestionTable.NAME,
+                null,
+                ExamDbSchema.QuestionTable.Cols.EXAM_ID + " = ?",
+                new String[]{String.valueOf(examID)},
+                null, null, null
+        );
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            questions.add(new Question(
+                    cursor.getInt(cursor.getColumnIndex("id")),
+                    cursor.getString(cursor.getColumnIndex(ExamDbSchema.QuestionTable.Cols.NAME)),
+                    getOptions(cursor.getInt(cursor.getColumnIndex("id"))),
+                    cursor.getInt(cursor.getColumnIndex(ExamDbSchema.QuestionTable.Cols.ANSWER)),
+                    cursor.getInt(cursor.getColumnIndex(ExamDbSchema.QuestionTable.Cols.CORRECT)),
+                    cursor.getString(cursor.getColumnIndex(ExamDbSchema.QuestionTable.Cols.HINT))
+            ));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return questions;
+    }
+
+    private List<Option> getOptions(int questionID) {
+        List<Option> options = new ArrayList<>();
+        Cursor cursor = this.getWritableDatabase().query(
+                ExamDbSchema.OptionTable.NAME,
+                null,
+                ExamDbSchema.OptionTable.Cols.QUESTION_ID + " = ?",
+                new String[]{String.valueOf(questionID)},
+                null, null, null
+        );
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            options.add(new Option(
+                    cursor.getInt(cursor.getColumnIndex("id")),
+                    cursor.getString(cursor.getColumnIndex(ExamDbSchema.OptionTable.Cols.TEXT))
+            ));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return options;
     }
 
     private void updateStore(SQLiteDatabase db) {
@@ -85,6 +187,14 @@ public class ExamBaseHelper extends SQLiteOpenHelper {
         db.execSQL(insertOption(2, "2.2", 5));
         db.execSQL(insertOption(3, "2.3", 5));
         db.execSQL(insertOption(4, "2.4", 5));
+    }
+
+    private String insertExam(String name, String desc, String result, String date) {
+        return "insert into exam (name, desc, result, date) values (" +
+                "'" + name + "'," +
+                "'" + desc + "'," +
+                "" + result + "," +
+                "" + date + ")";
     }
 
     private String insertQuestion(String name, int exam_id, int answer, int correct, int position, String hint) {

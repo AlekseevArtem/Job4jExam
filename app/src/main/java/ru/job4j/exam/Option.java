@@ -1,7 +1,5 @@
 package ru.job4j.exam;
 
-import java.util.Objects;
-
 public class Option {
     private int id;
     private String text;
